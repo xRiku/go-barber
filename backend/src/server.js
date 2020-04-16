@@ -1,10 +1,3 @@
-const express = require('express');
-const server = express();
+const server = require('./app');
 
-server.use(express.json());
-
-server.get('/', (request, response) => {
-  return response.send('Teste');
-});
-
-module.exports = server;
+server.listen(3333);

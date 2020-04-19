@@ -32,10 +32,10 @@ class UserController {
     const schema = Yup.object().shape({
       name: Yup.string(),
       email: Yup.string().email(),
-      oldPassword: Yup.string().min(6),
-      password: Yup.string().min(6)
-        .when('oldPassword', (oldPassword, field) =>
-          oldPassword ? field.required() : field
+      password: Yup.string().min(6),
+      oldPassword: Yup.string().min(6)
+        .when('password', (password, field) =>
+          password ? field.required() : field
         ),
       confirmPassword: Yup.string()
         .when('password', (password, field) =>
@@ -55,7 +55,7 @@ class UserController {
       }
     }
 
-    if (oldPassword && !(await user.checkPassword(oldPassword))) {
+    if (oldPassword && password && !(await user.checkPassword(oldPassword))) {
       return response.status(400).json({ error: 'Password does not match' });
     }
 

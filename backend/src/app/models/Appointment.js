@@ -1,7 +1,6 @@
 const { Sequelize, Model } = require('sequelize');
-const bcrypt = require('bcryptjs');
 
-class User extends Model {
+class Appointment extends Model {
   static init(sequelize) {
     super.init(
       {
@@ -22,4 +21,4 @@ class User extends Model {
   }
 }
 
-module.exports = User;
+module.exports = Appointment;

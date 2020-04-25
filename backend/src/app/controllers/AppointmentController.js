@@ -4,6 +4,15 @@ const User = require('../models/User');
 const Appointment = require('../models/Appointment')
 
 class AppointmentController {
+  async index(req, res) {
+    const appointments = await Appointment.findAll({
+      where: { user_id: req.userId, canceled_at: null }
+    });
+
+    return res.json(appointments);
+  }
+
+
   async store(req, res) {
     const schema = Yup.object().shape({
       provider_id: Yup.number().required(),

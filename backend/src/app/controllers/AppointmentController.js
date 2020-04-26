@@ -2,7 +2,8 @@ const Yup = require('yup');
 const { startOfHour, parseISO, isBefore } = require('date-fns');
 const User = require('../models/User');
 const File = require('../models/File');
-const Appointment = require('../models/Appointment')
+const Appointment = require('../models/Appointment');
+const Notification = require('../models/Notification');
 
 class AppointmentController {
   async index(req, res) {
@@ -85,6 +86,16 @@ class AppointmentController {
         .status(400)
         .json({ error: 'Appointment date is not available' });
     }
+
+    /**
+     * Notify appointment provider
+     */
+    const user = await User.findByPk(req.userId);
+
+    await Notification.create({
+      user: req.userId,
+      content: 'teste xd xd',
+    });
 
     const appointment = await Appointment.create({
       user_id: req.userId,

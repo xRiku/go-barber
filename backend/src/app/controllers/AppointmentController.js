@@ -1,5 +1,6 @@
 const Yup = require('yup');
-const { startOfHour, parseISO, isBefore } = require('date-fns');
+const { startOfHour, parseISO, isBefore, format } = require('date-fns');
+const pt = require('date-fns/locale/pt');
 const User = require('../models/User');
 const File = require('../models/File');
 const Appointment = require('../models/Appointment');
@@ -99,10 +100,15 @@ class AppointmentController {
      * Notify appointment provider
      */
     const user = await User.findByPk(req.userId);
+    const formattedDate = format(
+      hourStart,
+      "'dia' dd 'de' MMMM', às' H:mm'h'",
+      { locale: pt }
+    );
 
     await Notification.create({
       user: req.userId,
-      content: 'teste xd xd',
+      content: `Novo agendamento de ${user.name} para dia ${formattedDate}`,
     });
 
     const appointment = await Appointment.create({

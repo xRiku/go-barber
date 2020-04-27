@@ -121,7 +121,15 @@ class AppointmentController {
   }
 
   async delete(req, res) {
-    return res.json({ message: 'test' });
+    const appointment = await Appointment.findByPk(req.params.id);
+
+    if (appointment.user_id !== req.userId) {
+      return res.status(401).json({
+        error: "You cannot delete another person's appointment"
+      });
+    }
+
+    return res.json(appointment);
   }
 }
 

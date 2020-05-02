@@ -3,6 +3,7 @@ const {
   endOfDay,
   setHours,
   setMinutes,
+  setSeconds,
   format,
   isAfter,
 } = require('date-fns');
@@ -47,15 +48,20 @@ class AvailableController {
 
     const available = schedule.map(time => {
       const [hour, minute] = time.split(':');
-      const value = setSeconds(setMinutes(setHours(searchDate, hour) , minute), 0);
+      const value = setSeconds(
+        setMinutes(setHours(searchDate, hour) , minute),
+        0
+      );
       return {
         time,
         value: format(value, "yyyy-MM-dd'T'HH:mm:ssxxx"),
-        available: isAfter(value, new Date()),
+        available: 
+          isAfter(value, new Date()) &&
+          !appointments.find(a => format(a.date, 'HH:mm' === time))
       };
     });
 
-    return res.json(appointments);
+    return res.json(available);
   }
 }
 

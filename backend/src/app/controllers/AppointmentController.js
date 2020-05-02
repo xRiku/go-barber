@@ -6,7 +6,9 @@ const File = require('../models/File');
 const Appointment = require('../models/Appointment');
 const Notification = require('../models/Notification');
 
-const Mail = require('../../lib/Mail');
+
+const CancellationMail = require('../jobs/CancellationMail');
+const Queue = require('../../lib/Queue');
 
 class AppointmentController {
   async index(req, res) {
@@ -156,6 +158,10 @@ class AppointmentController {
 
     await appointment.save();
 
+
+    await Queue.add(CancellationMail.key, {
+      appointment,
+    });
 
     return res.json(appointment);
   }

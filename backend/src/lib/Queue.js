@@ -25,7 +25,7 @@ class Queue {
     return this.queues[queue].bee.createJob(job).save();
   }
 
-  process() {
+  processQueue() {
     jobs.forEach(job => {
       const { bee, handle } = this.queues[job.key];
 

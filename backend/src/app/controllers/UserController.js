@@ -1,4 +1,5 @@
 const User = require('../models/User');
+const File = require('../models/File');
 const Yup = require('yup');
 
 class UserController {
@@ -59,14 +60,24 @@ class UserController {
       return response.status(400).json({ error: 'Password does not match' });
     }
 
-    const { id, name, provider } = await user.update(request.body);
+    await user.update(request.body);
+
+    const { id, name, avatar } = await User.findByPk(req.userId, {
+      include: [
+        {
+          model: File,
+          as: 'avatar',
+          attributes: ['id', 'filename','url'],
+        }
+      ]
+    })
 
 
     return response.json({
       id,
       name,
       email,
-      provider,
+      avatar,
     });
   }
 }

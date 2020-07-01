@@ -16,7 +16,6 @@ export default function Routes() {
 
       <Route path="/dashboard" component={Dashboard} isPrivate />
       <Route path="/profile" component={Profile} isPrivate />
-      <Route component={() => <h1>Test</h1>} />
     </Switch>
   );
 }

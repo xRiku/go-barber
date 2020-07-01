@@ -10,7 +10,7 @@ export default function RouteWrapper({
   isPrivate,
   ...rest
 }) {
-  const signed = true;
+  const signed = false;
 
   if (!signed && isPrivate) {
     return <Redirect to="/" />;
@@ -28,7 +28,7 @@ export default function RouteWrapper({
       render={(props) => {
         return (
           <Layout>
-            <Component />
+            <Component {...props} />
           </Layout>
         );
       }}

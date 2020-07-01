@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Route, Redirect } from 'react-router-dom';
 
-export default function CustomRoute({
+export default function RouteWrapper({
   component: Component,
   isPrivate,
   ...rest
@@ -20,12 +20,12 @@ export default function CustomRoute({
   return <Route {...rest} component={Component} />;
 }
 
-CustomRoute.propTypes = {
+RouteWrapper.propTypes = {
   isPrivate: PropTypes.bool,
   component: PropTypes.oneOfType([PropTypes.element, PropTypes.func])
     .isRequired,
 };
 
-CustomRoute.defaultProps = {
+RouteWrapper.defaultProps = {
   isPrivate: false,
 };
